@@ -26,6 +26,15 @@ async function run() {
     const db = client.db("user_profile");
     const collection = db.collection("user");
 
+    //Show all users
+
+    app.get("/users", async (req, res) => {
+      const cursor = collection.find();
+      const result = await cursor.toArray();
+
+      res.send(result);
+    });
+
     // Add User
 
     app.post("/users", async (req, res) => {
