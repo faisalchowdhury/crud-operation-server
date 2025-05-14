@@ -1,5 +1,5 @@
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 require("dotenv").config();
 const app = express();
 const port = process.env.PORT || 3000;
@@ -40,6 +40,16 @@ async function run() {
     app.post("/users", async (req, res) => {
       const document = req.body;
       const result = await collection.insertOne(document);
+      res.send(result);
+    });
+
+    // Delete User
+
+    app.delete("/user-delete/:id", async (req, res) => {
+      const userId = req.params.id;
+      const query = { _id: new ObjectId(userId) };
+
+      const result = await collection.deleteOne(query);
       res.send(result);
     });
   } finally {
