@@ -43,6 +43,30 @@ async function run() {
       res.send(result);
     });
 
+    //update user
+
+    app.get("/update-user/:id", async (req, res) => {
+      const userId = req.params.id;
+      const query = { _id: new ObjectId(userId) };
+      const userData = await collection.findOne(query);
+
+      res.send(userData);
+    });
+
+    app.put("/update-user/:id", async (req, res) => {
+      const userId = req.params.id;
+      const updateData = req.body;
+
+      const query = { _id: new ObjectId(userId) };
+      const document = {
+        $set: updateData,
+      };
+
+      const result = await collection.updateOne(query, document);
+
+      res.send(result);
+    });
+
     // Delete User
 
     app.delete("/user-delete/:id", async (req, res) => {
